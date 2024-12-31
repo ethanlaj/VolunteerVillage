@@ -13,7 +13,6 @@ from controllers.profile import bp as profile_bp
 
 load_dotenv()
 
-db = SQLAlchemy()
 app = Flask(__name__)
 CORS(app, resources={
      r"*": {"origins": ["http://localhost:3000", "http://localhost:8000", "https://volunteervillage.ethanlaj.dev", "https://volunteervillage-api.ethanlaj.dev"]}})
