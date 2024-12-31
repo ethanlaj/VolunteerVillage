@@ -14,10 +14,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Install Gunicorn
 RUN pip install gunicorn
 
-ARG HH_DATABASE_URL
-ARG AUTH0_CLIENT_SECRET
-ARG FIREBASE_SERVICE_ACCOUNT_BASE64
-
 # Set the FLASK_APP environment variable
 ENV FLASK_APP=main.py
 
