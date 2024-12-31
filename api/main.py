@@ -13,9 +13,10 @@ from controllers.profile import bp as profile_bp
 
 load_dotenv()
 
+db = SQLAlchemy()
 app = Flask(__name__)
 CORS(app, resources={
-     r"*": {"origins": ["http://localhost:3000", "http://localhost:8000", "https://volunteervillage.co", "https://api.volunteervillage.co", "https://www.volunteervillage.co"]}})
+     r"*": {"origins": ["http://localhost:3000", "http://localhost:8000", "https://volunteervillage.ethanlaj.dev", "https://volunteervillage-api.ethanlaj.dev"]}})
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("HH_DATABASE_URL")
 app.register_blueprint(posts_bp)
 app.register_blueprint(badges_bp)
