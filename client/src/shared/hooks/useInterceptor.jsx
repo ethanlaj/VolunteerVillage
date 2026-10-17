@@ -12,12 +12,12 @@ const urlsToUseAuth0 = [
 
 const useInterceptor = () => {
 	const navigate = useNavigate();
-	const { getAccessTokenSilently, getAccessTokenWithPopup, loginWithRedirect } = useAuth0();
+	const { isAuthenticated, getAccessTokenSilently, getAccessTokenWithPopup, loginWithRedirect } = useAuth0();
 
 	function setInterceptors() {
 		axios.interceptors.request.clear();
 		axios.interceptors.request.use(async (config) => {
-			if (!urlsToUseAuth0.some((url) => config.url && config.url.startsWith(url)))
+			if (!isAuthenticated || !urlsToUseAuth0.some((url) => config.url && config.url.startsWith(url)))
 				return config;
 
 			const token = await getTokenSilently();
