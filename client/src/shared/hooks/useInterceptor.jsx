@@ -6,6 +6,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const urlsToUseAuth0 = [
 	"https://api.volunteervillage.co",
+	"https://volunteervillage-api.ethanlaj.dev",
 	"http://localhost:8000",
 ];
 
