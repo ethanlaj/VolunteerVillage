@@ -1,12 +1,24 @@
-from flask import jsonify, g, Blueprint, jsonify
+from flask import jsonify, g, Blueprint, redirect
 from flask import request
 from auth import requires_auth
 from auth0Mgmt import get_user_info_with_userids, get_name, update_user_profilepic
 from werkzeug.utils import secure_filename
 import os
-from firebase import upload_profile_picture
+from object_storage import upload_profile_picture, signed_profile_picture_url
 
 bp = Blueprint('profile', __name__)
+
+
+@bp.route('/profile/picture/<user_id>', methods=['GET'])
+def get_profile_picture(user_id):
+    """Resolve a stable avatar address without exposing a public bucket."""
+    try:
+        signed_url = signed_profile_picture_url(user_id)
+    except ValueError:
+        return jsonify({'error': 'Invalid profile picture user ID'}), 400
+    response = redirect(signed_url, code=302)
+    response.headers['Cache-Control'] = 'no-store'
+    return response
 
 
 @bp.route('/profile', methods=['GET'])
@@ -37,7 +49,7 @@ def update_profile_details():
         file.save(temp_path)
 
         try:
-            public_url = upload_profile_picture(temp_path, user_id)
+            public_url = upload_profile_picture(temp_path, user_id, file.mimetype)
         finally:
             if os.path.exists(temp_path):
                 os.remove(temp_path)

@@ -6,10 +6,12 @@ import Signup from "./Signup";
 import Logout from "./Logout";
 import { useAuth0 } from "@auth0/auth0-react";
 import Profile from "./Profile";
+import { profilePictureUrl } from "../services/profilePicture";
 
 export default function Navbar() {
 	const { user, isAuthenticated } = useAuth0();
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const picture = profilePictureUrl(user?.picture);
 
 	return (
 		<Flex p="10px" alignItems="center" bg="gray.700" fontSize="20px">
@@ -56,13 +58,13 @@ export default function Navbar() {
 				
 				<Menu>
 					<MenuButton as={Button} variant='ghost' rightIcon={<ChevronDownIcon />}>
-						<Avatar size="sm" src={user.picture} name={user.name} />
+						<Avatar size="sm" src={picture} name={user.name} />
 					</MenuButton>
 					<MenuList>
             <Flex direction="column" gap={2}>
               <Center>
 			  <Button onClick={onOpen}>
-				<Avatar size="sm" src={user.picture} name={user.name} />
+				<Avatar size="sm" src={picture} name={user.name} />
 				</Button>
 				<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
